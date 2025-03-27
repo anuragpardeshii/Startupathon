@@ -84,7 +84,7 @@ export default function Navbar() {
             <li>
               <button
                 type="button"
-                className="text-white font-medium rounded-lg text-sm px-4 py-2 bg-gradient-to-r from-[#3f2d6d] via-[#7a56d6] to-[#9077ce] hover:bg-[#7a56d6] focus:ring-4 focus:outline-none focus:ring-blue-300"
+                className="text-white font-medium rounded-lg text-sm px-4 py-2 bg-gradient-to-r from-[#3f2d6d] via-[#7a56d6] to-[#9077ce] hover:bg-[#7a56d6] focus:ring-4 focus:outline-none focus:ring-[#7a56d6]"
               >
                 Apply For Fellowship
               </button>

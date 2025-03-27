@@ -9,7 +9,7 @@ import Footer from './Footer'
 
 export default function Home() {
   return (
-    <div className='bg-black'>
+    <div className='bg-gradient-to-b from-black to-[#010002]'>
      <Navbar/>
      <Hero/> 
      <Challenges/>

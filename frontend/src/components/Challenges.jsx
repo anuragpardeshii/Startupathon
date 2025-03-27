@@ -1,79 +1,101 @@
-import React from "react";
-
-const challenges = [
-    {
-      id: 1,
-      title: "RealEstate AI",
-      funding: "$10,000",
-      description:
-        "An AI-powered real estate platform that optimizes property valuation, investment strategies, and market insights using machine learning to enhance decision-making and profitability.",
-      image:
-        "https://cdn.prod.website-files.com/623eb8c6eb9b328644ade032/67d19cf742c8edb7372e995c_Untitled_design_-_2025-03-12T200934.604-removebg-preview%20(1).png",
-      deadline: "March 31, 2025",
-    },
-    {
-      id: 2,
-      title: "Horizon",
-      funding: "$20,000",
-      description:
-        "An open-source platform to educate, connect, and empower users on social causes through storytelling, curated content, and interactive features.",
-      image:
-        "https://cdn.prod.website-files.com/623eb8c6eb9b328644ade032/67da7779e9f3d7475ef5fa13_horizon.png",
-      deadline: "March 23, 2025",
-    },
-  ];
+import React, { useEffect, useState } from "react";
 
 export default function Challenges() {
+  const [challenges, setChallenges] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(3); // Show 3 initially
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/challenges");
+        const data = await response.json();
+        setChallenges(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching challenges:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchChallenges();
+  }, []);
+
+  const loadMore = () => {
+    setVisibleCount((prevCount) => prevCount + 3); // Show 3 more on each click
+  };
+
+  if (loading) {
+    return <p className="text-center text-white text-lg">Loading...</p>;
+  }
+
   return (
-    <div className="py-16 text-center">
-      <h2 class="text-4xl text-center font-bold dark:text-white">
+    <div className="py-16 text-center md:px-8">
+      <h2 className="text-2xl md:text-4xl font-bold dark:text-white">
         Ongoing Startupathon Challenges
       </h2>
-      <p class="text-xl font-normal text-gray-500 dark:text-gray-400">
+      <p className="text-lg md:text-xl font-normal text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mt-2">
         Start your journey—tackle live challenges, earn equity, and lead the
         future.
       </p>
-      <div class="mt-0 px-0 pt-8 flex items-center gap-4 sm:w-full sm:mt-5 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-6">
-          {challenges.map((challenge) => (
+
+      {/* Challenges Grid */}
+      <div className="mt-8 flex justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl mx-auto px-4">
+          {challenges.slice(0, visibleCount).map((challenge) => (
             <div
-              key={challenge.id}
-              className="border bg-[#2c2050]/55 hover:bg-black p-4 border-violet-500/30 shadow-[#7a56d6] shadow-sm rounded-2xl max-w-sm"
+              key={challenge._id.$oid}
+              className="border bg-[#2c2050]/55 hover:bg-black p-6 border-violet-500/30 shadow-lg rounded-2xl transition-all duration-300"
             >
               <img
                 src={challenge.image}
                 alt={challenge.title}
-                className="mx-auto h-32 m-2"
+                className="mx-auto h-32 object-contain m-2"
               />
-              <h3 className="text-white font-bold text-2xl">
+              <h3 className="text-white font-bold text-2xl my-3">
                 {challenge.title}
               </h3>
-              <p className="text-violet-500 mb-2 text-lg font-bold">
-                Initial Funding Offered: <span>{challenge.funding}</span>
+              <p className="text-violet-500 text-lg font-bold mb-2">
+                Initial Funding Offered: <span>${challenge.funding}</span>
               </p>
-              <p className="text-white h-20 text-sm my-2">{challenge.description}</p>
-              <div className="flex items-center">
+              <p className="text-white text-sm my-2 h-20 overflow-hidden">
+                {challenge.description}
+              </p>
+              <div className="flex items-center mt-4">
                 <img
                   src="https://cdn.prod.website-files.com/623ae64112adcf772da9687e/678a08bb798234106f88d71f_burning.png"
                   alt="Deadline Icon"
-                  className="w-12 m-2"
+                  className="w-10 h-10 m-2"
                 />
                 <div className="text-start">
-                  <p className="text-violet-500 my-4 font-bold text-lg">
+                  <p className="text-violet-500 font-bold text-lg">
                     Deadline approaching! Apply by{" "}
-                    <span>{challenge.deadline}</span>
+                    <span>
+                      {new Date(challenge.deadline).toLocaleDateString()}
+                    </span>
                   </p>
                 </div>
               </div>
-              <button
-                className="focus:outline-none text-white bg-[#432d7b] hover:bg-[#5a3d9c] focus:ring-4 focus:ring-violet-300 font-medium rounded-lg text-base sm:text-lg px-4 py-3 sm:px-6 sm:py-4 transition-colors w-full"
-              >
+              <button className="mt-4 focus:outline-none text-white bg-[#432d7b] hover:bg-[#5a3d9c] focus:ring-4 focus:ring-violet-300 font-medium rounded-lg text-base sm:text-lg px-6 py-3 transition-all w-full">
                 View Challenge Details
               </button>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Load More Button */}
+      {visibleCount < challenges.length && (
+        <div className="flex items-center justify-center">
+          <button
+            type="button"
+            onClick={loadMore}
+            className="flex items-center justify-center text-[#7a56d6] mt-6 rounded-lg text-lg px-4 py-2 cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold"
+          >
+            See More
+          </button>
+        </div>
+      )}
     </div>
   );
 }
