@@ -16,15 +16,20 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+
 const corsOptions = {
-  origin: ["http://localhost:3000", process.env.FRONTEND_URI], // Allowed domains
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
-  credentials: true, // Allow cookies and authentication headers
+  origin: process.env.FRONTEND_URI ? process.env.FRONTEND_URI.split(",") : "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
+
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
 
 // Routes
 app.use("/api/challenges", challengeRoutes);
