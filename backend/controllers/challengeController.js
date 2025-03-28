@@ -53,24 +53,20 @@ exports.getChallengeById = async (req, res) => {
 };
 
 // Update Challenge
-exports.updateChallenge = async (req, res) => {
+exports.updateChallenge =  async (req, res) => {
   try {
-    const { title, funding, deadline, description, reviewVideos, challengeVideos, visibility } = req.body;
-    
-    let updateData = { title, funding, deadline, description, reviewVideos, challengeVideos, visibility };
-    
-    if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
-      updateData.image = result.secure_url;
-    }
+    const { title, funding, deadline, description, visibility } = req.body;
+    const image = req.file ? req.file.path : existingChallenge.image; // Use new image or keep old one
 
-    const challenge = await Challenge.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    const updatedChallenge = await Challenge.findByIdAndUpdate(
+      req.params.id,
+      { title, funding, deadline, description, visibility, image },
+      { new: true }
+    );
 
-    if (!challenge) return res.status(404).json({ message: "Challenge not found" });
-
-    res.json(challenge);
-  } catch (error) {
-    res.status(500).json({ message: "Error updating challenge", error });
+    res.json(updatedChallenge);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update challenge" });
   }
 };
 

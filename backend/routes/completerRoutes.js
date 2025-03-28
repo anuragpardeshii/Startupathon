@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+const Completer = require("../models/Completer")
 const {
   createCompleter,
   getCompleters,
@@ -17,6 +18,19 @@ const upload = multer({ storage });
 // router.post("/", upload.fields([{ name: "icon" }, { name: "profilePicture" }]), createCompleter);
 router.get("/", getCompleters);
 // Upload Founder Image
+router.post("/", async (req, res) => {
+  try {
+    console.log("Incoming Data:", req.body); // Log the request body
+    const newCompleter = new Completer(req.body);
+    await newCompleter.save();
+    res.status(201).json({ message: "Completer added successfully", completer: newCompleter });
+  } catch (error) {
+    console.error("Error adding completer:", error); // Log the actual error
+    res.status(500).json({ message: "Error adding completer", error: error.message });
+  }
+});
+
+
 router.post("/upload-image", upload.single("image"), (req, res) => {
   try {
     res.json({ imageUrl: req.file.path });
@@ -26,7 +40,7 @@ router.post("/upload-image", upload.single("image"), (req, res) => {
 });
 
 // Update Visibility
-router.put("/completers/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { visibility } = req.body;
