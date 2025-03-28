@@ -14,7 +14,7 @@ export default function Founders() {
 
   const fetchFounders = () => {
     axios
-      .get("http://localhost:3000/api/founders")
+      .get(`${import.meta.env.VITE_BACKEND_URI}/api/founders`)
       .then((response) => setFounders(response.data))
       .catch((error) => console.error("Error fetching founders:", error));
   };
@@ -22,7 +22,7 @@ export default function Founders() {
   const toggleVisibility = async (id) => {
     try {
       await axios.put(
-        `http://localhost:3000/api/founders/${id}/toggle-visibility`
+        `${import.meta.env.VITE_BACKEND_URI}/api/founders/${id}/toggle-visibility`
       );
       fetchFounders(); // Refresh the list after update
     } catch (error) {
@@ -48,7 +48,7 @@ export default function Founders() {
   const handleUpdate = async () => {
     try {
       await axios.put(
-        `http://localhost:3000/api/founders/${selectedFounder._id}`,
+        `${import.meta.env.VITE_BACKEND_URI}/api/founders/${selectedFounder._id}`,
         updatedData
       );
       fetchFounders();
@@ -82,7 +82,7 @@ export default function Founders() {
   // Submit New Founder
   const handleAddFounder = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/founders", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/founders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export default function Founders() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/founders/upload-image",
+        `${import.meta.env.VITE_BACKEND_URI}/api/founders/upload-image`,
         {
           method: "POST",
           body: formData,
@@ -253,7 +253,7 @@ export default function Founders() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 p-4 sm:p-0">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-900 bg-opacity-50 p-4 sm:p-0">
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-lg md:max-w-xl lg:max-w-2xl max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4 text-center">Edit Founder</h2>
 
@@ -424,8 +424,8 @@ export default function Founders() {
 
       {/* Add Founder Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 px-4">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl md:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-900 bg-opacity-50 px-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl md:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4 text-center">
               Add New Founder
             </h2>

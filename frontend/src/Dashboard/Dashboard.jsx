@@ -37,7 +37,7 @@ export default function Dashboard() {
           {menuItems.map((item, index) => (
             <li key={index}>
               <Link
-                to={`/dashboard/${item.path}`} // ✅ Absolute path
+                to={`/admin/dashboard/${item.path}`} // ✅ Absolute path
                 className="flex items-center gap-3 text-gray-700 font-bold p-3 hover:bg-gray-200 rounded"
               >
                 <svg

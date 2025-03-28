@@ -56,7 +56,7 @@ const data = [
 
 export default function Hero() {
   return (
-    <section className="bg-black mb-8 pt-24 relative z-[200] text-white w-full mt-0 mb-0">
+    <section id="hero" className="bg-black mb-8 pt-24 relative z-[200] text-white w-full mt-0 mb-0">
       <div className="w-full max-w-[90rem] mx-auto px-4">
         <div className="relative w-full flex flex-col justify-center items-center">
           {/* Image Container with Overlay */}
@@ -135,7 +135,7 @@ export default function Hero() {
 
             <div className="flex justify-center">
               {/* Grid for larger screens */}
-              <div className="hidden mt-8 sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
+              <div className="hidden mt-8 sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {data.map((item) => (
                   <div
                     key={item.id}

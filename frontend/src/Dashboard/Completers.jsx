@@ -12,7 +12,7 @@ export default function Completers() {
 
   const fetchCompleters = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/completers");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URI}/api/completers`);
       setProjects(response.data);
     } catch (error) {
       console.error("Error fetching Completers:", error);
@@ -21,7 +21,7 @@ export default function Completers() {
 
   const toggleVisibility = async (id, visibility) => {
     try {
-      await axios.put(`http://localhost:3000/api/completers/${id}`, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_URI}api/completers/${id}`, {
         visibility: !visibility,
       });
       fetchCompleters();
@@ -45,13 +45,54 @@ export default function Completers() {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/completers/${currentProject._id}`,
+        `${import.meta.env.VITE_BACKEND_URI}/api/completers/${currentProject._id}`,
         currentProject
       );
       fetchCompleters();
       closeEditModal();
     } catch (error) {
       console.error("Error updating completer:", error);
+    }
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    projectName: "",
+    logo: "",
+    name: "",
+    role: "",
+    description: "",
+    profilePicture: "",
+    linkedin: "",
+    funding: "",
+    visibility: true,
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/completers`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to add completer");
+      }
+      console.log("New Completer Data Added Successfully");
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -63,6 +104,7 @@ export default function Completers() {
         </h3>
         <button
           type="button"
+          onClick={() => setIsOpen(true)}
           className="text-white font-medium rounded-lg text-sm px-5 py-2.5 bg-[#3f2d6d] ms-2 hover:bg-[#7a56d6] focus:ring-4 focus:outline-none focus:ring-[#7a56d6]"
         >
           Add Completer
@@ -70,7 +112,7 @@ export default function Completers() {
       </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <thead className="text-sm text-gray-700 bg-gray-50">
+          <thead className="text-sm text-gray-700 border-b border-gray-200 bg-gray-50">
             <tr>
               <th className="px-6 py-3">S.No</th>
               <th className="px-6 py-3">Project</th>
@@ -137,6 +179,111 @@ export default function Completers() {
             ))}
           </tbody>
         </table>
+        {isOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
+              <h2 className="text-lg font-bold mb-4">Add Completer</h2>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  name="projectName"
+                  placeholder="Project Name"
+                  value={formData.projectName}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded mb-2"
+                  required
+                />
+                <input
+                  type="text"
+                  name="logo"
+                  placeholder="Logo URL"
+                  value={formData.logo}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded mb-2"
+                  required
+                />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded mb-2"
+                  required
+                />
+                <input
+                  type="text"
+                  name="role"
+                  placeholder="Role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded mb-2"
+                  required
+                />
+                <textarea
+                  name="description"
+                  placeholder="Description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded mb-2"
+                  required
+                />
+                <input
+                  type="text"
+                  name="profilePicture"
+                  placeholder="Profile Picture URL"
+                  value={formData.profilePicture}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded mb-2"
+                  required
+                />
+                <input
+                  type="text"
+                  name="linkedin"
+                  placeholder="LinkedIn URL"
+                  value={formData.linkedin}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded mb-2"
+                  required
+                />
+                <input
+                  type="text"
+                  name="funding"
+                  placeholder="Funding"
+                  value={formData.funding}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded mb-2"
+                  required
+                />
+                <div className="flex items-center mb-4">
+                  <input
+                    type="checkbox"
+                    name="visibility"
+                    checked={formData.visibility}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  <label>Visibility</label>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                    className="mr-2 px-4 py-2 bg-gray-300 rounded"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-blue-600 text-white rounded"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Edit Modal */}

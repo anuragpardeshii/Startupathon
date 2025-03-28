@@ -43,7 +43,7 @@ export default function Navbar() {
           <ul className="font-medium flex flex-col items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:border-gray-700">
             <li>
               <a
-                href="#"
+                href="#ongoing-startup"
                 className="block py-2 px-3 text-white bg-[#7a56d6] rounded-sm md:bg-transparent md:text-[#7a56d6] md:p-0 dark:text-white md:dark:text-[#7a56d6]"
               >
                 Ongoing Startup
@@ -51,7 +51,7 @@ export default function Navbar() {
             </li>
             <li>
               <a
-                href="#"
+                href="#completed-startupathon"
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#7a56d6] md:p-0 dark:text-white md:dark:hover:text-[#7a56d6]"
               >
                 Completed Startupathon
@@ -59,7 +59,7 @@ export default function Navbar() {
             </li>
             <li>
               <a
-                href="#"
+                href="#startupathon-guide"
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#7a56d6] md:p-0 dark:text-white md:dark:hover:text-[#7a56d6]"
               >
                 Startupathon Guide
@@ -67,7 +67,7 @@ export default function Navbar() {
             </li>
             <li>
               <a
-                href="#"
+                href="https://persistventures.com/startupathon-application-process"
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#7a56d6] md:p-0 dark:text-white md:dark:hover:text-[#7a56d6]"
               >
                 How to Win
@@ -75,7 +75,7 @@ export default function Navbar() {
             </li>
             <li>
               <a
-                href="#"
+                href="#mentor-network"
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#7a56d6] md:p-0 dark:text-white md:dark:hover:text-[#7a56d6]"
               >
                 Mentor Network

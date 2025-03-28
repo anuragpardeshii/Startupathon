@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Guide() {
   return (
-    <div className="py-20 px-4">
+    <section id="startupathon-guide" className="py-20 px-4">
       <div className="text-center">
         <h2 className="text-3xl sm:text-4xl font-bold dark:text-white">
           Found an idea that matches your skills?
@@ -127,6 +127,6 @@ export default function Guide() {
           Apply For Fellowship
         </button>
       </div>
-    </div>
+    </section>
   );
 }
