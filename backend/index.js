@@ -16,15 +16,7 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-
-const corsOptions = {
-  origin: process.env.FRONTEND_URI ? process.env.FRONTEND_URI.split(",") : "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
